@@ -169,22 +169,7 @@ module.exports = {
           id: "30b6c97f-84a3-4f5a-9f17-e0ca7a5811eb",
           user_id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434", // User: admin
           role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Role: Admin
-          menu_id: "3e8d5b51-b665-4a38-9bdd-da815f5761a0", // Menu: Event
-          is_create: true,
-          is_read: true,
-          is_read_all: true,
-          is_update: true,
-          is_delete: true,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          createdBy: "Seeder",
-          updatedBy: "Seeder",
-        },
-        {
-          id: "e2d11779-3b5e-46ce-a649-88436da92f19",
-          user_id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434", // User: admin
-          role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Role: Admin
-          menu_id: "b014ff25-356e-4b57-9a8f-7a239166d9e1", // Menu: Ticket
+          menu_id: "3e8d5b51-b665-4a38-9bdd-da815f5761a0", // Menu: Reservation
           is_create: true,
           is_read: true,
           is_read_all: true,

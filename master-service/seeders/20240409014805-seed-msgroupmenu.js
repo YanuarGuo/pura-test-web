@@ -56,8 +56,8 @@ module.exports = {
         {
           id: "ce46b076-595e-4294-bf38-25e905db2e71",
           service_id: "fc5f34cb-29ec-4517-81a4-e70919736ac3",
-          name: "Event",
-          note: "Keterangan group menu Event",
+          name: "Transaction",
+          note: "Keterangan group menu Transaction",
           createdAt: "2024-08-22T03:05:14.354Z",
           updatedAt: "2024-08-22T03:05:14.354Z",
           is_show: true,

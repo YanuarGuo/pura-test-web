@@ -105,7 +105,7 @@ module.exports = {
         {
           id: "db087c0b-d354-474a-adf6-f7b7105a32ee",
           role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Admin
-          menu_id: "dd5de29b-00e0-437f-b78b-57ce779f6599", // Jenis Tiket
+          menu_id: "dd5de29b-00e0-437f-b78b-57ce779f6599", // Rooms
           is_create: true,
           is_read: true,
           is_update: true,
@@ -175,21 +175,7 @@ module.exports = {
         {
           id: "501e398a-4f8a-4d1f-a236-fd0b1aa8880c",
           role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Admin
-          menu_id: "3e8d5b51-b665-4a38-9bdd-da815f5761a0", // Event
-          is_create: false,
-          is_read: true,
-          is_update: false,
-          is_delete: false,
-          createdAt: "2024-08-22T03:05:14.366Z",
-          updatedAt: "2024-08-22T03:05:14.366Z",
-          is_read_all: true,
-          createdBy: "Seeder",
-          updatedBy: "Seeder",
-        },
-        {
-          id: "9a377c7a-5d0b-4ad3-bf21-4d8a1c748999",
-          role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Admin
-          menu_id: "b014ff25-356e-4b57-9a8f-7a239166d9e1", // Ticket
+          menu_id: "3e8d5b51-b665-4a38-9bdd-da815f5761a0", // Reservation
           is_create: false,
           is_read: true,
           is_update: false,

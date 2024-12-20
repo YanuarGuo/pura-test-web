@@ -116,14 +116,13 @@ module.exports = {
           updatedAt: "2024-08-22T03:05:14.309Z",
           is_show: true,
         },
-        //Master Service
         {
           id: "dd5de29b-00e0-437f-b78b-57ce779f6599",
           group_menu_id: "dc748705-1485-4f0e-810b-441a16b9d555",
-          name: "Jenis Tiket",
+          name: "Rooms",
           icon_local: null,
           icon_url: null,
-          note: "Keterangan Jenis Tiket",
+          note: "Keterangan Rooms",
           service_path_id: "68683bfd-b641-4878-a6fb-28bdc1288243",
           createdAt: "2024-08-22T03:05:14.309Z",
           updatedAt: "2024-08-22T03:05:14.309Z",
@@ -158,27 +157,15 @@ module.exports = {
           is_show: true,
         },
 
-        // Event Service
+        // Transactional Service
         {
           id: "3e8d5b51-b665-4a38-9bdd-da815f5761a0",
           group_menu_id: "ce46b076-595e-4294-bf38-25e905db2e71",
-          name: "Event",
+          name: "Reservation",
           icon_local: null,
           icon_url: null,
-          note: "Menu Event",
+          note: "Menu Reservation",
           service_path_id: "727acedc-ba2e-4087-b8ab-6e48d7c9739b",
-          createdAt: "2024-08-22T03:05:14.361Z",
-          updatedAt: "2024-08-22T03:05:14.361Z",
-          is_show: true,
-        },
-        {
-          id: "b014ff25-356e-4b57-9a8f-7a239166d9e1",
-          group_menu_id: "ce46b076-595e-4294-bf38-25e905db2e71",
-          name: "Ticket",
-          icon_local: null,
-          icon_url: null,
-          note: "Menu Ticket",
-          service_path_id: "3f3ce324-8b4c-4863-a59c-d06c7d7590bc",
           createdAt: "2024-08-22T03:05:14.361Z",
           updatedAt: "2024-08-22T03:05:14.361Z",
           is_show: true,

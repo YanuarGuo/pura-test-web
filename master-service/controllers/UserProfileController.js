@@ -77,7 +77,6 @@ exports.createUserProfile = async (req, res) => {
       return resError(res, 403, "User Profile sudah dibuat.");
     }
 
-    // const profileData = { ...req.body };
     const userProfile = await UserProfile.create(
       req.body,
       req.sequelizeOptions
