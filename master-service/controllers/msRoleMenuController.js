@@ -29,28 +29,6 @@ exports.getAllMsRoleMenus = async (req, res) => {
   }
 };
 
-// exports.getMsRoleMenuById = async (req, res) => {
-//   try {
-//     const msRoleMenu = await MsRoleMenu.findByPk(req.params.id, {
-//       include: [
-//         { model: MsRole, as: "role" },
-//         { model: MsMenu, as: "menu" },
-//       ],
-//     });
-//     if (!msRoleMenu) {
-//       return resError(res, 404, "Master Role Menu tidak ditemukan.");
-//     }
-//     return resSukses(
-//       res,
-//       200,
-//       "Berhasil mendapatkan Master Role Menu.",
-//       msRoleMenu
-//     );
-//   } catch (error) {
-//     return resError(res, 500, "Gagal mendapatkan Master Role Menu.");
-//   }
-// };
-
 exports.upsertMsRoleMenu = async (req, res) => {
   try {
     const data = req.body;
@@ -61,12 +39,10 @@ exports.upsertMsRoleMenu = async (req, res) => {
 
     if (Array.isArray(data)) {
       const temp = data.map(async (d) => {
-        // Cek apakah user access ada
         const cek = await MsRoleMenu.findOne({
           where: { role_id: d.role_id, menu_id: d.menu_id },
         });
 
-        // Set createdBy dan updatedBy
         if (cek) {
           d.updatedBy = req.sequelizeOptions.userId;
         } else {
@@ -85,12 +61,10 @@ exports.upsertMsRoleMenu = async (req, res) => {
 
       msRoleMenu = await Promise.all(temp);
     } else {
-      // Cek apakah user access ada
       const cek = await MsRoleMenu.findOne({
         where: { role_id: data.role_id, menu_id: data.menu_id },
       });
 
-      // Set createdBy dan updatedBy
       if (cek) {
         data.updatedBy = req.sequelizeOptions.userId;
       } else {
@@ -115,40 +89,3 @@ exports.upsertMsRoleMenu = async (req, res) => {
     );
   }
 };
-
-// exports.updateMsRoleMenu = async (req, res) => {
-//   try {
-//     const msRoleMenu = await MsRoleMenu.findByPk(req.params.id);
-//     if (!msRoleMenu) {
-//       return resError(res, 404, "Master Role Menu tidak ditemukan.");
-//     }
-//     await msRoleMenu.update(req.body, req.sequelizeOptions);
-//     return resSukses(
-//       res,
-//       200,
-//       "Berhasil memperbarui Master Role Menu.",
-//       msRoleMenu
-//     );
-//   } catch (error) {
-//     return resError(
-//       res,
-//       500,
-//       error.errors
-//         ? error.errors.map((e) => e.message)
-//         : `Gagal memperbarui Master Role Menu.`
-//     );
-//   }
-// };
-
-// exports.deleteMsRoleMenu = async (req, res) => {
-//   try {
-//     const msRoleMenu = await MsRoleMenu.findByPk(req.params.id);
-//     if (!msRoleMenu) {
-//       return resError(res, 404, "Master Role Menu tidak ditemukan.");
-//     }
-//     await msRoleMenu.destroy();
-//     return resSukses(res, 200, "Berhasil menghapus Master Role Menu.");
-//   } catch (error) {
-//     return resError(res, 500, "Gagal menghapus Master Role Menu.");
-//   }
-// };

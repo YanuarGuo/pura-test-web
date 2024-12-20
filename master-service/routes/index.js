@@ -3,10 +3,6 @@ var router = express.Router();
 
 // Gunakan route yang telah diatur
 
-// Kategori
-const kategoriRoutes = require("./kategoriRoutes");
-router.use("/kategori", kategoriRoutes);
-
 // Role
 const msRoleRoutes = require("./msRoleRoutes");
 router.use("/roles", msRoleRoutes);
@@ -16,8 +12,8 @@ const msGroupMenuRoutes = require("./msGroupMenuRoutes");
 router.use("/group-menus", msGroupMenuRoutes);
 
 // Jenis Tiket
-const msJenisTiketRoutes = require("./msJenisTiketRoutes");
-router.use("/jenis-tikets", msJenisTiketRoutes);
+const msRoomRoutes = require("./msRoomRoutes");
+router.use("/rooms", msRoomRoutes);
 
 // Menu
 const msMenuRoutes = require("./msMenuRoutes");

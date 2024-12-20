@@ -1,3 +1,3 @@
-# Event Service
+# Transactional Service
 
-Service untuk proses kelola event.
+Service untuk proses kelola transaksi ruang.

@@ -33,55 +33,55 @@ down:
 
 seed:
 	@echo "Memulai seeding service manager ..."
-	cd service-manager && docker exec -it service-manager sh -c "npx sequelize-cli db:seed:all"
+	cd service-manager && docker exec -it service-manager-peminjaman-ruang sh -c "npx sequelize-cli db:seed:all"
 
 	@echo "Memulai seeding auth service ..."
-	cd auth-service && docker exec -it auth-service sh -c "npx sequelize-cli db:seed:all"
+	cd auth-service && docker exec -it auth-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:all"
 
 	@echo "Memulai seeding master service ..."
-	cd master-service && docker exec -it master-service sh -c "npx sequelize-cli db:seed:all"
+	cd master-service && docker exec -it master-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:all"
 
 	@echo "Memulai seeding transactional service ..."
-	cd transactional-service && docker exec -it transactional-service sh -c "npx sequelize-cli db:seed:all"
+	cd transactional-service && docker exec -it transactional-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:all"
 
 	@echo "Memulai seeding storage service ..."
-	cd storage-service && docker exec -it storage-service sh -c "npx sequelize-cli db:seed:all"
+	cd storage-service && docker exec -it storage-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:all"
 
 	@echo "Proses seeding berhasil dilakukan!"
 
 undo-seed:
 	@echo "Memulai penghapusan data service manager ..."
-	cd service-manager && docker exec -it service-manager sh -c "npx sequelize-cli db:seed:undo:all"
+	cd service-manager && docker exec -it service-manager-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all"
 
 	@echo "Memulai penghapusan data auth service ..."
-	cd auth-service && docker exec -it auth-service sh -c "npx sequelize-cli db:seed:undo:all"
+	cd auth-service && docker exec -it auth-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all"
 
 	@echo "Memulai penghapusan data master service ..."
-	cd master-service && docker exec -it master-service sh -c "npx sequelize-cli db:seed:undo:all"
+	cd master-service && docker exec -it master-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all"
 
 	@echo "Memulai penghapusan data transactional service ..."
-	cd transactional-service && docker exec -it transactional-service sh -c "npx sequelize-cli db:seed:undo:all"
+	cd transactional-service && docker exec -it transactional-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all"
 
 	@echo "Memulai penghapusan data storage service ..."
-	cd storage-service && docker exec -it storage-service sh -c "npx sequelize-cli db:seed:undo:all"
+	cd storage-service && docker exec -it storage-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all"
 
 	@echo "Proses penghapusan data berhasil dilakukan!"
 
 full-seed:
 	@echo "Memulai seeding total service manager ..."
-	cd service-manager && docker exec -it service-manager sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
+	cd service-manager && docker exec -it service-manager-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
 
 	@echo "Memulai seeding total auth service ..."
-	cd auth-service && docker exec -it auth-service sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
+	cd auth-service && docker exec -it auth-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
 
 	@echo "Memulai seeding total master service ..."
-	cd master-service && docker exec -it master-service sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
+	cd master-service && docker exec -it master-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
 
 	@echo "Memulai seeding total transactional service ..."
-	cd transactional-service && docker exec -it transactional-service sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
+	cd transactional-service && docker exec -it transactional-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
 
 	@echo "Memulai seeding total storage service ..."
-	cd storage-service && docker exec -it storage-service sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
+	cd storage-service && docker exec -it storage-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
 
 	@echo "Proses seeding total berhasil dilakukan!"
 

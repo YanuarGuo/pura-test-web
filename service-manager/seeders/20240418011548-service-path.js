@@ -111,7 +111,7 @@ module.exports = {
       {
         id: "68683bfd-b641-4878-a6fb-28bdc1288243",
         service_id: "8e416062-7664-481e-8858-3242107c288f",
-        path_name: "jenis-tikets",
+        path_name: "rooms",
         is_maintenance: false,
         is_suspend: false,
         createdAt: new Date(),
@@ -129,20 +129,11 @@ module.exports = {
         updatedAt: new Date(),
       },
 
-      //Service: Event Service
+      //Service: Transactional Service
       {
         id: "727acedc-ba2e-4087-b8ab-6e48d7c9739b",
         service_id: "fc5f34cb-29ec-4517-81a4-e70919736ac3",
-        path_name: "event",
-        is_maintenance: false,
-        is_suspend: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: "3f3ce324-8b4c-4863-a59c-d06c7d7590bc",
-        service_id: "fc5f34cb-29ec-4517-81a4-e70919736ac3",
-        path_name: "ticket",
+        path_name: "reservation",
         is_maintenance: false,
         is_suspend: false,
         createdAt: new Date(),

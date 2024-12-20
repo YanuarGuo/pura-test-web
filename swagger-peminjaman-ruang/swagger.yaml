@@ -36,13 +36,12 @@ tags:
     description: Service untuk pengelolaan data master.
   - name: Master Service > User
   - name: Master Service > Role
-  - name: Master Service > Kategori
+  - name: Master Service > Rooms
   - name: Master Service > Group Menu
   - name: Master Service > Menu
   - name: Master Service > Role Menu
   - name: Master Service > User Accesses
   - name: Master Service > User Profile
-  - name: Master Service > Jenis Tiket
   - name: Storage Service
     description: |-
       Service untuk mengelola upload/download file.
@@ -463,179 +462,6 @@ paths:
             application/json: {}
       security:
         - Authorization: []
-  /kategori:
-    get:
-      tags:
-        - Master Service > Kategori
-      summary: Get All
-      parameters:
-        - $ref: "#/components/parameters/GatewayKeyHeader"
-        - $ref: "#/components/parameters/UnixTimeHeader"
-      responses:
-        "200":
-          description: Succesful Response
-          content:
-            application/json: {}
-        "400":
-          description: Request Tidak Lengkap
-          content:
-            application/json: {}
-        "403":
-          description: Forbidden
-          content:
-            application/json: {}
-        "404":
-          description: Data Tidak Ditemukan
-          content:
-            application/json: {}
-        "500":
-          description: Error
-          content:
-            application/json: {}
-      security:
-        - Authorization: []
-    post:
-      tags:
-        - Master Service > Kategori
-      summary: Create
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                name: Kategori 1
-                createdAt: "2024-05-29 08:19:12"
-                updatedAt: "2024-05-29 08:19:12"
-      security:
-        - Authorization: []
-      parameters:
-        - $ref: "#/components/parameters/GatewayKeyHeader"
-        - $ref: "#/components/parameters/UnixTimeHeader"
-      responses:
-        "200":
-          description: Succesful Response
-          content:
-            application/json: {}
-        "400":
-          description: Request Tidak Lengkap
-          content:
-            application/json: {}
-        "403":
-          description: Forbidden
-          content:
-            application/json: {}
-        "404":
-          description: Data Tidak Ditemukan
-          content:
-            application/json: {}
-        "500":
-          description: Error
-          content:
-            application/json: {}
-  /kategori/{id}:
-    get:
-      tags:
-        - Master Service > Kategori
-      summary: Get By Id
-      parameters:
-        - $ref: "#/components/parameters/GatewayKeyHeader"
-        - $ref: "#/components/parameters/UnixTimeHeader"
-        - $ref: "#/components/parameters/Id"
-      responses:
-        "200":
-          description: Succesful Response
-          content:
-            application/json: {}
-        "400":
-          description: Request Tidak Lengkap
-          content:
-            application/json: {}
-        "403":
-          description: Forbidden
-          content:
-            application/json: {}
-        "404":
-          description: Data Tidak Ditemukan
-          content:
-            application/json: {}
-        "500":
-          description: Error
-          content:
-            application/json: {}
-      security:
-        - Authorization: []
-    put:
-      tags:
-        - Master Service > Kategori
-      summary: Update
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                name: Kategori 1
-                createdAt: "2024-05-29 08:19:12"
-                updatedAt: "2024-05-29 08:19:12"
-      security:
-        - Authorization: []
-      parameters:
-        - $ref: "#/components/parameters/GatewayKeyHeader"
-        - $ref: "#/components/parameters/UnixTimeHeader"
-        - $ref: "#/components/parameters/Id"
-      responses:
-        "200":
-          description: Succesful Response
-          content:
-            application/json: {}
-        "400":
-          description: Request Tidak Lengkap
-          content:
-            application/json: {}
-        "403":
-          description: Forbidden
-          content:
-            application/json: {}
-        "404":
-          description: Data Tidak Ditemukan
-          content:
-            application/json: {}
-        "500":
-          description: Error
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - Master Service > Kategori
-      summary: Delete
-      security:
-        - Authorization: []
-      parameters:
-        - $ref: "#/components/parameters/GatewayKeyHeader"
-        - $ref: "#/components/parameters/UnixTimeHeader"
-        - $ref: "#/components/parameters/Id"
-      responses:
-        "200":
-          description: Succesful Response
-          content:
-            application/json: {}
-        "400":
-          description: Request Tidak Lengkap
-          content:
-            application/json: {}
-        "403":
-          description: Forbidden
-          content:
-            application/json: {}
-        "404":
-          description: Data Tidak Ditemukan
-          content:
-            application/json: {}
-        "500":
-          description: Error
-          content:
-            application/json: {}
   /roles:
     get:
       tags:
@@ -809,10 +635,10 @@ paths:
           description: Error
           content:
             application/json: {}
-  /jenis-tikets:
+  /rooms:
     get:
       tags:
-        - Master Service > Jenis Tiket
+        - Master Service > Rooms
       summary: Get All
       parameters:
         - $ref: "#/components/parameters/GatewayKeyHeader"
@@ -842,7 +668,7 @@ paths:
         - Authorization: []
     post:
       tags:
-        - Master Service > Jenis Tiket
+        - Master Service > Rooms
       summary: Create
       requestBody:
         content:
@@ -880,10 +706,10 @@ paths:
           description: Error
           content:
             application/json: {}
-  /jenis-tikets/{id}:
+  /rooms/{id}:
     get:
       tags:
-        - Master Service > Jenis Tiket
+        - Master Service > Rooms
       summary: Get by ID
       security:
         - Authorization: []
@@ -914,7 +740,7 @@ paths:
             application/json: {}
     put:
       tags:
-        - Master Service > Jenis Tiket
+        - Master Service > Rooms
       summary: Update
       requestBody:
         content:
@@ -955,7 +781,7 @@ paths:
             application/json: {}
     delete:
       tags:
-        - Master Service > Jenis Tiket
+        - Master Service > Rooms
       summary: Delete
       security:
         - Authorization: []

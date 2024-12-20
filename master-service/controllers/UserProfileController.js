@@ -1,77 +1,6 @@
 const { UserProfile } = require("../models");
 var { resSukses, resError } = require("../helpers/response");
 const jwt = require("jsonwebtoken");
-const axios = require("axios");
-const db = require("../models/index");
-
-// exports.getAllUsers = async (req, res) => {
-//   try {
-//     const decodedJwt = jwt.decode(req.headers["authorization"]);
-//     const { ids } = req.query;
-//     const whereCondition = { is_active: true };
-
-//     if (ids) {
-//       const userIds = ids.split(",");
-//       whereCondition.id = { [db.Sequelize.Op.in]: userIds };
-//     }
-//     let userProfiles;
-//     let mergedUsers = [];
-//     if (decodedJwt.userPermission.is_read_all) {
-//       const getuser = await axios({
-//         method: "GET",
-//         url: `${process.env.HOST_AUTH}/auth/userData`,
-//         params: { ids }, // Use ids from query if is_read_all is true
-//       });
-
-//       const externalUsers = Array.isArray(getuser.data.data)
-//         ? getuser.data.data
-//         : [];
-
-//       userProfiles = await UserProfile.findAll({
-//         where: whereCondition,
-//         order: [["createdAt", "DESC"]],
-//       });
-
-//       mergedUsers = userProfiles.map((profile) => {
-//         const userData = externalUsers.find((user) => user.id === profile.id);
-//         return {
-//           ...profile.dataValues,
-//           ...(userData || {}),
-//         };
-//       });
-//     } else {
-//       const getuser = await axios({
-//         method: "GET",
-//         url: `${process.env.HOST_AUTH}/auth/userData`,
-//         params: { ids: decodedJwt.userId },
-//       });
-
-//       const externalUsers = Array.isArray(getuser.data.data)
-//         ? getuser.data.data
-//         : [];
-//       const userData = externalUsers.find(
-//         (user) => user.id === decodedJwt.userId
-//       );
-
-//       userProfiles = await UserProfile.findAll({
-//         where: { id: decodedJwt.userId, is_active: true },
-//         order: [["createdAt", "DESC"]],
-//       });
-
-//       mergedUsers = userProfiles.map((profile) => {
-//         return {
-//           ...profile.dataValues,
-//           ...(userData || {}),
-//         };
-//       });
-//     }
-
-//     return resSukses(res, 200, "Berhasil mendapatkan semua User.", mergedUsers);
-//   } catch (error) {
-//     console.error(error);
-//     return resError(res, 500, "Gagal mendapatkan semua User.");
-//   }
-// };
 
 exports.getAllUserProfiles = async (req, res) => {
   try {
@@ -119,11 +48,6 @@ exports.getUserProfileById = async (req, res) => {
 
 exports.createUserProfile = async (req, res) => {
   try {
-    // const token = req.headers["authorization"];
-    // const decoded = jwt.decode(token);
-    // const id = decoded.userId;
-
-    // const cekUser = await UserProfile.findByPk(id);
     const cekUser = await UserProfile.findByPk(req.body.id);
 
     if (cekUser) {

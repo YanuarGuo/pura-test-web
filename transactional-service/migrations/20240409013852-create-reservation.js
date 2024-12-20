@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Reservations", {
+    await queryInterface.createTable("Reservation", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -15,6 +15,10 @@ module.exports = {
       room_id: {
         allowNull: false,
         type: Sequelize.UUID,
+      },
+      harga: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -34,13 +38,13 @@ module.exports = {
         allowNull: false,
         defaultValue: "",
       },
-      is_show: {
+      is_active: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
       },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Reservations");
+    await queryInterface.dropTable("Reservation");
   },
 };

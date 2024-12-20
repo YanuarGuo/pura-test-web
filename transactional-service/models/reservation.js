@@ -3,42 +3,32 @@ const { Model } = require("sequelize");
 const moment = require("moment-timezone");
 
 module.exports = (sequelize, DataTypes) => {
-  class Event extends Model {
+  class Reservation extends Model {
     static associate(models) {
-      Event.hasMany(models.Tiket, {
-        foreignKey: "event_id",
+      Reservation.hasMany(models.ReservationDetail, {
+        foreignKey: "reservation_id",
       });
     }
   }
-  Event.init(
+  Reservation.init(
     {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
       },
-      nama_event: {
-        type: DataTypes.STRING,
+      user_id: {
         allowNull: false,
+        type: DataTypes.UUID,
       },
-      tanggal_event: {
-        type: DataTypes.DATE,
+      room_id: {
         allowNull: false,
+        type: DataTypes.UUID,
       },
-      waktu_event: {
-        type: DataTypes.STRING,
+      harga: {
         allowNull: false,
-      },
-      kapasitas: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
-      compliment_chair: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      deskripsi: DataTypes.TEXT,
-      url_lampiran: DataTypes.STRING,
       createdBy: {
         type: DataTypes.STRING,
       },
@@ -46,14 +36,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       is_active: {
-        type: DataTypes.BOOLEAN,
         allowNull: false,
+        type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
     },
     {
       sequelize,
-      modelName: "Event",
+      modelName: "Reservation",
       hooks: {
         beforeCreate: (instance, options) => {
           instance.createdBy = options.userId;
@@ -66,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Event.prototype.toJSON = function () {
+  Reservation.prototype.toJSON = function () {
     const values = { ...this.get() };
 
     if (values.createdAt) {
@@ -84,5 +74,5 @@ module.exports = (sequelize, DataTypes) => {
     return values;
   };
 
-  return Event;
+  return Reservation;
 };

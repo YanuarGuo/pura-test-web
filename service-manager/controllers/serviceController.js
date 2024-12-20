@@ -2,7 +2,6 @@ const { Service, ServicePath } = require("../models");
 
 var { resSukses, resError } = require("../helpers/response");
 
-// CREATE (membuat layanan baru)
 exports.createService = async (req, res) => {
   try {
     const service = await Service.create(req.body);
@@ -14,7 +13,6 @@ exports.createService = async (req, res) => {
   }
 };
 
-// READ (mengambil semua layanan)
 exports.getAllServices = async (req, res) => {
   const serviceId = req.query.id;
   const searchName = req.query.name;
@@ -26,12 +24,10 @@ exports.getAllServices = async (req, res) => {
         include: [{ model: ServicePath }],
       });
     } else if (urlPath) {
-      // Cek path ada atau tidak
       const servicePath = await ServicePath.findOne({
         where: { path_name: urlPath },
       });
 
-      // Bila ada, cari service terakit
       if (servicePath) {
         services = await Service.findOne({
           where: { id: servicePath.service_id },
@@ -62,7 +58,6 @@ exports.getAllServices = async (req, res) => {
   }
 };
 
-// READ (mengambil layanan berdasarkan ID)
 exports.getServiceById = async (req, res) => {
   var serviceId = req.params.id;
   try {
@@ -82,7 +77,6 @@ exports.getServiceById = async (req, res) => {
   }
 };
 
-// UPDATE (mengubah data layanan berdasarkan ID)
 exports.updateService = async (req, res) => {
   const serviceId = req.params.id;
   const updatedData = req.body;
@@ -103,7 +97,6 @@ exports.updateService = async (req, res) => {
   }
 };
 
-// DELETE (menghapus layanan berdasarkan ID)
 exports.deleteService = async (req, res) => {
   const serviceId = req.params.id;
   try {
