@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ${NODE_ENV} # image akan menyesuaikan tergantung mode development atau production
+    image: "${CONTAINER_NAME}:1.0"
+    container_name: ${CONTAINER_NAME}
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    # ports:
+    #   - ${PORT}:${PORT}
+    depends_on:
+      - db
+    volumes:
+      - ./:/home/node/app
+    networks:
+      - peminjaman-ruang-net
+    restart: always
+    user: root
+    command: sh -c 'npm install && npx sequelize-cli db:migrate && if [ "$NODE_ENV" = "development" ]; then npm run start; else pm2-runtime bin/www; fi'
+  db:
+    image: postgres:16
+    container_name: ${DB_DATABASE}
+    ports:
+      #aktifkan port jika ingin open public
+      - "${DB_PORT_PUBLIC}:${DB_PORT}" #port 54325 - port public
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      PGPORT: ${DB_PORT}
+      TZ: Asia/Jakarta
+    networks:
+      #setting jaringan yang sama dengan api gateway dan BE agar bisa saling terhubung dalam internal docker
+      - peminjaman-ruang-net
+    volumes:
+      #setting untuk membuat data tetap utuh walaupun container di drop/restart
+      - ./postgres-data:/var/lib/postgresql/data
+    restart: always
+
+networks:
+  peminjaman-ruang-net:
+    external: true

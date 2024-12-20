@@ -1,0 +1,2352 @@
+openapi: 3.1.3
+info:
+  title: SIANGKASA-API
+  description: >-
+    Setiap request yang ada, harus selalu menyertakan 2 header
+
+
+    1. gateway-key = berisikan kunci gateway yang ada pada environment project
+    api-gateway-key (untuk development menggunakan DEV_GATEWAY, untuk production
+    menggunakan API_GATEWAY)
+
+    2. unixtime = berisikan konversi waktu request ke dalam unixtime untuk di
+    validasi saat production (saat development, unixtime bisa diisi angka apa
+    saja karena tidak akan di validasi)
+
+
+    Optional:
+
+
+    Untuk API yang terdapat simbol kunci, baik secara global maupun
+    individu, wajib menyertakan header
+
+
+    1. Authorization = berisikan token yang di dapat saat melakukan login
+
+
+    Authorization ini dapat berbentuk "Authorization: {{ key }}" atau
+    "Authorization: Bearer {{ key }}"
+  version: 1.0.0
+servers:
+  - url: http://localhost:9002
+tags:
+  - name: Auth Service
+    description: Service untuk proses autentikasi user.
+  - name: Master Service
+    description: Service untuk pengelolaan data master.
+  - name: Master Service > User
+  - name: Master Service > Role
+  - name: Master Service > Kategori
+  - name: Master Service > Group Menu
+  - name: Master Service > Menu
+  - name: Master Service > Role Menu
+  - name: Master Service > User Accesses
+  - name: Master Service > User Profile
+  - name: Master Service > Jenis Tiket
+  - name: Storage Service
+    description: |-
+      Service untuk mengelola upload/download file.
+      **(Khusus BE)**
+  - name: Service Manager
+    description: >-
+      Service yang dikhususkan untuk mengelola aplikasi yang masuk ke dalam
+      ekosistem docker karena komunikasi ke service-service terkait menggunakan
+      jaringan internal di dalam docker.
+      **(Khusus BE)**
+  - name: Service Manager > Services
+  - name: Service Manager > Services Path
+  - name: Email Service
+    description: |-
+      Service untuk proses krim email
+      **(Khusus Backend)**
+  - name: Log Service
+    description: Service untuk memproses log
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    GatewayKeyHeader:
+      name: gateway-key
+      in: header
+      required: true
+      schema:
+        type: string
+      example: XQeFHDaRSocnoUjxBsnykoWJIWZXJkZh
+    UnixTimeHeader:
+      name: unixtime
+      in: header
+      required: true
+      schema:
+        type: string
+      example: 1716862355
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 6cd626c-1380-4bd7-8a55-3ab809f146d7
+    File-source:
+      name: source
+      in: path
+      required: true
+      schema:
+        type: string
+      example: abcd
+    File-folder:
+      name: folder
+      in: path
+      required: true
+      schema:
+        type: string
+      example: oke
+    File-name:
+      name: filename
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 36cd626c-1380-4bd7-8a55-3ab809f146d7.png
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth Service
+      summary: Login
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: admin
+                password:
+                  type: string
+                  example: 1sampai8
+      responses:
+        "200":
+          description: SUccessful Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: Login Sukses
+                data:
+                  id: c0db4c0a-4a42-4413-b2e5-68d9a7272434
+                  token: >-
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMGRiNGMwYS00YTQyLTQ0MTMtYjJlNS02OGQ5YTcyNzI0MzQiLCJpYXQiOjE3MTY5NTA1NDQsImV4cCI6MTcxNzU1NTM0NH0.4Gg3P39_2KB2F7yS6z8yi4UvnHl2x5JyX6y-BrWaLtc
+                  refreshToken: >-
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMGRiNGMwYS00YTQyLTQ0MTMtYjJlNS02OGQ5YTcyNzI0MzQiLCJpYXQiOjE3MTY4Nzc2ODcsImV4cCI6MTcyNDY1MzY4N30.HZ9Mft8uBCYWbe7O8iJ8SlAaHBfOBNSfZ36oUo4HrqA
+        "400":
+          description: Request Tidak sesuai
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: false
+                message: Akun dalam pengajuan reset password
+                service: SVC-AS
+                data: null
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: false
+                message: SVC-AS -  Maaf, Pengguna tidak ditemukan
+                data: null
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /auth/logout/:
+    post:
+      tags:
+        - Auth Service
+      summary: Logout
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      security:
+        - Authorization: []
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /auth/register:
+    post:
+      tags:
+        - Auth Service
+      summary: Register
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: user_baru
+                password:
+                  type: string
+                  example: 1sampai8
+                email:
+                  type: string
+                  example: test@example.com
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: Berhasil membuat akun
+                data:
+                  suspend: false
+                  id: 9f32483f-d1dc-42db-b4a3-109775e09083
+                  username: user_baru
+                  email: test@example.com
+                  password: null
+                  updatedAt: "2024-05-29 08:19:12"
+                  createdAt: "2024-05-29 08:19:12"
+                  token: null
+                  refreshToken: null
+                  lastLogin: null
+                  resetKey: null
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /auth/forgot-password:
+    post:
+      tags:
+        - Auth Service
+      summary: Forgot Password
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                email:
+                  type: string
+                  example: innobanggo013@gmail.com
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /auth/reset-password:
+    put:
+      tags:
+        - Auth Service
+      summary: Reset Password
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                key:
+                  type: string
+                  example: sacajdohqdoqopdaopd
+                new_password:
+                  type: string
+                  example: 1sampai9
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /auth/refresh:
+    post:
+      tags:
+        - Auth Service
+      summary: Referesh Token
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                refreshToken:
+                  type: string
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMGRiNGMwYS00YTQyLTQ0MTMtYjJlNS02OGQ5YTcyNzI0MzQiLCJpYXQiOjE3MTY4Nzc2ODcsImV4cCI6MTcyNDY1MzY4N30.HZ9Mft8uBCYWbe7O8iJ8SlAaHBfOBNSfZ36oUo4HrqA"
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /auth/user:
+    put:
+      tags:
+        - Auth Service
+      summary: Update username, email, or password
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: new_username
+                email:
+                  type: string
+                  example: new_email@uksw.edu
+                password:
+                  type: string
+                  example: 1sampai9
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /users:
+    get:
+      tags:
+        - Master Service > User Profile
+      summary: Get All
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - name: ids
+          in: query
+          schema:
+            type: string
+          example: "95eba26a-2b4d-4747-a957-1f59157eb873,a9e68ec6-8c1b-483b-8e7d-bb3c026411c2"
+          description: IDs secara batch, optional
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+      security:
+        - Authorization: []
+  /kategori:
+    get:
+      tags:
+        - Master Service > Kategori
+      summary: Get All
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+      security:
+        - Authorization: []
+    post:
+      tags:
+        - Master Service > Kategori
+      summary: Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Kategori 1
+                createdAt: "2024-05-29 08:19:12"
+                updatedAt: "2024-05-29 08:19:12"
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /kategori/{id}:
+    get:
+      tags:
+        - Master Service > Kategori
+      summary: Get By Id
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+      security:
+        - Authorization: []
+    put:
+      tags:
+        - Master Service > Kategori
+      summary: Update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Kategori 1
+                createdAt: "2024-05-29 08:19:12"
+                updatedAt: "2024-05-29 08:19:12"
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Master Service > Kategori
+      summary: Delete
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /roles:
+    get:
+      tags:
+        - Master Service > Role
+      summary: Get All
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+      security:
+        - Authorization: []
+    post:
+      tags:
+        - Master Service > Role
+      summary: Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Role Baru 1
+                note: Keterangan role baru 1
+                is_active: true
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /roles/{id}:
+    get:
+      tags:
+        - Master Service > Role
+      summary: Get by ID
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Master Service > Role
+      summary: Update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Admin 1.1
+                note: Keterangan admin 1.1
+                is_active: true
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Master Service > Role
+      summary: Delete
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /jenis-tikets:
+    get:
+      tags:
+        - Master Service > Jenis Tiket
+      summary: Get All
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+      security:
+        - Authorization: []
+    post:
+      tags:
+        - Master Service > Jenis Tiket
+      summary: Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Role Baru 1
+                note: Keterangan role baru 1
+                is_validate: true
+                is_authorize: true
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /jenis-tikets/{id}:
+    get:
+      tags:
+        - Master Service > Jenis Tiket
+      summary: Get by ID
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Master Service > Jenis Tiket
+      summary: Update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Admin 1.1
+                note: Keterangan admin 1.1
+                is_validate: true
+                is_authorize: true
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Master Service > Jenis Tiket
+      summary: Delete
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /group-menus:
+    get:
+      tags:
+        - Master Service > Group Menu
+      summary: Get All
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Master Service > Group Menu
+      summary: Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Group Menu C
+                application_id: dab4eefb-3bbf-4673-b2e8-1f4f6a01ab90
+                note: Keterangan group menu C
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /group-menus/{id}:
+    get:
+      tags:
+        - Master Service > Group Menu
+      summary: Get by ID
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Master Service > Group Menu
+      summary: Update
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Jabatan A.1
+                application_id: dab4eefb-3bbf-4673-b2e8-1f4f6a01ab90
+                note: Keterangan Jabatan A.1
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Master Service > Group Menu
+      summary: Delete
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /menus:
+    get:
+      tags:
+        - Master Service > Menu
+      summary: Get All
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Master Service > Menu
+      summary: Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Group Menu C
+                group_menu_id: dc748705-1485-4f0e-810b-441a16b9d555
+                note: Keterangan group menu C
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /menus/{id}:
+    get:
+      tags:
+        - Master Service > Menu
+      summary: Get by ID
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Master Service > Menu
+      summary: Update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Menu A.1
+                note: Keterangan Menu A.1
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Master Service > Menu
+      summary: Delete
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+          "400":
+            description: Request Tidak Lengkap
+            content:
+              application/json: {}
+          "403":
+            description: Forbidden
+            content:
+              application/json: {}
+          "404":
+            description: Data Tidak Ditemukan
+            content:
+              application/json: {}
+          "500":
+            description: Error
+            content:
+              application/json: {}
+  /role-menus:
+    get:
+      tags:
+        - Master Service > Role Menu
+      summary: Get All
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - name: role_id
+          in: query
+          schema:
+            type: string
+          example: "2d4970a9-7c30-428f-b339-eea6c34863a5"
+          description: The ID of the role
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Master Service > Role Menu
+      summary: Upsert, body bisa array object atau single object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                example:
+                  role_id: 2d4970a9-7c30-428f-b339-eea6c34863a5
+                  menu_id: f1811083-63df-4f12-a6dc-fec471cfc6cf
+                  is_create: false
+                  is_read: true
+                  is_update: false
+                  is_delete: false
+                  is_approve: true
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /user-access:
+    get:
+      tags:
+        - Master Service > User Accesses
+      summary: Get All
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          example: "c0db4c0a-4a42-4413-b2e5-68d9a7272434"
+        - name: menu_id
+          in: query
+          schema:
+            type: string
+          example: "be228fc6-1c75-4b99-81b4-bd19d80c722e"
+        - name: service_path_id
+          in: query
+          schema:
+            type: string
+          example: "2a7213f9-ee0c-4124-a221-708728f6ead6"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Master Service > User Accesses
+      summary: Upsert, body bisa array object ataupun single object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                example:
+                  user_id: c0db4c0a-4a42-4413-b2e5-68d9a7272434
+                  role_id: 2d4970a9-7c30-428f-b339-eea6c34863a5
+                  menu_id: be228fc6-1c75-4b99-81b4-bd19d80c722e
+                  is_create: true
+                  is_read: true
+                  is_read_all: true
+                  is_update: true
+                  is_delete: true
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /user-access/seed:
+    get:
+      tags:
+        - Master Service > User Accesses
+      summary: Get Seed
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /storages:
+    get:
+      tags:
+        - Storage Service
+      summary: Get All
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /storages/info/{id}:
+    get:
+      tags:
+        - Storage Service
+      summary: Get Info File
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /storages/{id}:
+    get:
+      tags:
+        - Storage Service
+      summary: Download By ID
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Storage Service
+      summary: Delete
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /storages/file/{source}/{folder}/{filename}:
+    get:
+      tags:
+        - Storage Service
+      summary: Download By Path
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/File-source"
+        - $ref: "#/components/parameters/File-folder"
+        - $ref: "#/components/parameters/File-name"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /storages/upload:
+    post:
+      tags:
+        - Storage Service
+      summary: Upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                source:
+                  type: string
+                  example: abcd
+                folder:
+                  type: string
+                  example: oke
+                files:
+                  type: string
+                  format: binary
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /services:
+    post:
+      tags:
+        - Service Manager > Services
+      summary: Daftar Parent Service
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                id:
+                  type: string
+                  example: 36f5407a-5c8d-4728-bf04-1dfdad14ce7f
+                name:
+                  type: string
+                  example: Example Service
+                host:
+                  type: string
+                  example: http://example-service
+                port:
+                  type: string
+                apikey:
+                  type: string
+                  example: apikey5
+                is_maintenance:
+                  type: boolean
+                  example: "false"
+                is_suspend:
+                  type: boolean
+                  example: "false"
+                maintenance_message:
+                  type: string
+                  example: Example Service is Under Maintenance
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /services/{id}:
+    get:
+      tags:
+        - Service Manager > Services
+      summary: Get By ID Service Parent
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Service Manager > Services
+      summary: Update By ID Service Parent
+      requestBody:
+        content: {}
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Service Manager > Services
+      summary: Delet By ID Service Parent
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /service-paths:
+    post:
+      tags:
+        - Service Manager > Services Path
+      summary: Daftar Service Path
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                id:
+                  type: string
+                  example: 36f5407a-5c8d-4728-bf04-1dfdad14ce7f
+                path_name:
+                  type: string
+                  example: example-path
+                service_id:
+                  type: string
+                  example: 10809103-2d35-46c0-89b4-a35d7be90622
+                is_maintenance:
+                  type: boolean
+                  example: "false"
+                is_suspend:
+                  type: boolean
+                  example: "false"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /service-paths/{id}:
+    get:
+      tags:
+        - Service Manager > Services Path
+      summary: Get By ID Service Path
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Service Manager > Services Path
+      summary: Update By ID Service Path
+      requestBody:
+        content: {}
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Service Manager > Services Path
+      summary: Delet By ID Service Path
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /email/sent:
+    post:
+      tags:
+        - Email Service
+      summary: Sent Email
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                emailTo:
+                  type: string
+                  example: test@example.com
+                subject:
+                  type: string
+                  example: TEST
+                body:
+                  type: string
+                  example: Test Krim Email
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /user-profiles:
+    get:
+      tags:
+        - Master Service > User Profile
+      summary: Mendapatkan semua UserProfiles
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Master Service > User Profile
+      summary: Membuat profile baru
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                id:
+                  type: string
+                  default: ""
+                firstName:
+                  type: string
+                  example: "user"
+                lastName:
+                  type: string
+                  example: "unit"
+                address:
+                  type: string
+                  example: "cemara"
+                phoneNumber:
+                  type: string
+                  example: "081234567890"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /user-profiles/{id}:
+    get:
+      tags:
+        - Master Service > User Profile
+      summary: Mendapatkan UserProfiles berdasarkan Id
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Master Service > User Profile
+      summary: Memperbarui profile pengguna
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                firstName:
+                  type: string
+                  example: "admin"
+                lastName:
+                  type: string
+                  example: "wr"
+                address:
+                  type: string
+                  example: "kemiri"
+                phoneNumber:
+                  type: string
+                  example: "08123456xxx"
+                unit_id:
+                  type: string
+                  example: a82e61b9-5dd8-4286-8631-32834b5729de
+                sub_unit_id:
+                  type: string
+                  example: 214e07b3-7e4b-4e6e-a0b2-845eacedbfde
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Master Service > User Profile
+      summary: Menghapus profile pengguna
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /logs:
+    get:
+      tags:
+        - Log Service
+      summary: Mendapatkan semua log sistem
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - name: type
+          in: query
+          schema:
+            type: string
+          example: "log"
+          description: The type of log
+        - name: date
+          in: query
+          schema:
+            type: string
+          example: "20240609"
+          description: The date of log in yyyymmdd format
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Log Service
+      summary: BE Only, Membuat log baru, type = [DEBUG, LOG, WARN, ERR]
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                type: LOG
+                ipaddr: 127.0.0.1
+                method: POST
+                url: /path
+                user_id: 6cd626c-1380-4bd7-8a55-3ab809f146d7
+                username: user_admin
+                message: Admin menambah log
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}

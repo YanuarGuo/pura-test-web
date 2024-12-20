@@ -1,0 +1,12 @@
+# postgres storage mount directories
+postgres-data/
+
+# Dependency directories
+node_modules/
+jspm_packages/
+package-lock.json
+
+# Docker setup
+Dockerfile
+docker-compose.yml
+Makefile

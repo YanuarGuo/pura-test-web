@@ -1,0 +1,18 @@
+
+
+.git
+*.log
+
+.DS_Store
+
+node_modules
+
+# Docker setup
+Dockerfile
+docker-compose.yml
+
+#postgres data pada docker
+postgres-data/
+
+#storage untuk menyimpan file
+files/

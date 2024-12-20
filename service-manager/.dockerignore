@@ -1,0 +1,13 @@
+#penyimpanan postgres
+postgres-data/
+
+# Dependency directories
+node_modules/
+jspm_packages/
+npm-debug.log
+
+# Docker setup
+Dockerfile
+docker-compose.yml
+.dockerignore
+Makefile
