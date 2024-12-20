@@ -31,4 +31,7 @@ router.use("/user-access", userAccessRoutes);
 const userProfileRoutes = require("./userProfileRoutes");
 router.use("/user-profiles", userProfileRoutes);
 
+const userRoutes = require("./userRoutes");
+router.use("/users", userRoutes);
+
 module.exports = router;

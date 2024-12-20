@@ -428,7 +428,7 @@ paths:
   /users:
     get:
       tags:
-        - Master Service > User Profile
+        - Master Service > User
       summary: Get All
       parameters:
         - $ref: "#/components/parameters/GatewayKeyHeader"

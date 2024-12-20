@@ -2,6 +2,29 @@ const { UserProfile } = require("../models");
 var { resSukses, resError } = require("../helpers/response");
 const jwt = require("jsonwebtoken");
 
+exports.getAllUsers = async (req, res) => {
+  try {
+    const decodedJwt = jwt.decode(req.headers["authorization"]);
+
+    let user;
+    if (decodedJwt.userPermission.is_read_all) {
+      user = await UserProfile.findAll({
+        where: { is_active: true },
+        order: [["createdAt", "DESC"]],
+      });
+    } else {
+      user = await UserProfile.findAll({
+        where: { id: decodedJwt.userId, is_active: true },
+        order: [["createdAt", "DESC"]],
+      });
+    }
+
+    return resSukses(res, 200, "Berhasil mendapatkan semua User.", user);
+  } catch (error) {
+    return resError(res, 500, "Gagal mendapatkan semua User.");
+  }
+};
+
 exports.getAllUserProfiles = async (req, res) => {
   try {
     let token = req.headers["authorization"];
