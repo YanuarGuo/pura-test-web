@@ -117,6 +117,18 @@ module.exports = {
           is_show: true,
         },
         {
+          id: "4785f293-6ab4-419e-84a2-69d0ce3454fd",
+          group_menu_id: "dc748705-1485-4f0e-810b-441a16b9d555",
+          name: "User Profile",
+          icon_local: null,
+          icon_url: null,
+          note: "Keterangan user profile",
+          service_path_id: "4d6f7a3e-e988-423d-81de-3b72594df272",
+          createdAt: "2024-08-22T03:05:12.982Z",
+          updatedAt: "2024-08-22T03:05:12.982Z",
+          is_show: true,
+        },
+        {
           id: "dd5de29b-00e0-437f-b78b-57ce779f6599",
           group_menu_id: "dc748705-1485-4f0e-810b-441a16b9d555",
           name: "Rooms",

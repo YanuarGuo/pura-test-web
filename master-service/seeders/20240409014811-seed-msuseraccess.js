@@ -136,6 +136,21 @@ module.exports = {
           updatedBy: "Seeder",
         },
         {
+          id: "36e4b9ec-9100-4849-a86a-dc92e47ad850",
+          user_id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434", // User: admin
+          role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Role: Admin
+          menu_id: "4785f293-6ab4-419e-84a2-69d0ce3454fd", // Menu: Users
+          is_create: true,
+          is_read: true,
+          is_read_all: true,
+          is_update: true,
+          is_delete: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          createdBy: "Seeder",
+          updatedBy: "Seeder",
+        },
+        {
           id: "635e230a-ac55-4733-b498-81575b817e67",
           user_id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434", // User: admin
           role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Role: Admin
@@ -184,7 +199,7 @@ module.exports = {
           id: "b911646f-013c-4fb3-98d6-44d9dd0fc8ed",
           user_id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434", // User: admin
           role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Role: Admin
-          menu_id: "dd5de29b-00e0-437f-b78b-57ce779f6599", // Menu: Jenis Tiket
+          menu_id: "dd5de29b-00e0-437f-b78b-57ce779f6599", // Menu: Rooms
           is_create: true,
           is_read: true,
           is_read_all: true,
