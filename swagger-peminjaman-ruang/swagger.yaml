@@ -2052,3 +2052,42 @@ paths:
             application/json: {}
       security:
         - Authorization: []
+  /reservation/validasi:
+    put:
+      tags:
+        - Transactional Service > Reservation
+      summary: Put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                reservation_id: 3f896f59-08f6-4a4e-9b41-90020027f170
+                status: approved
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}

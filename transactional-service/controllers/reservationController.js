@@ -103,7 +103,7 @@ exports.createReservation = async (req, res) => {
     });
 
     if (existingReservations.length > 0) {
-      return resError(res, 409, "Ruangan sudah dipesan pada waktu tersebut.");
+      return resError(res, 400, "Ruangan sudah dipesan pada waktu tersebut.");
     }
 
     req.body.user_id = userId;
@@ -183,7 +183,7 @@ exports.updateReservation = async (req, res) => {
       });
 
       if (existingReservations.length > 0) {
-        return resError(res, 409, "Ruangan sudah dipesan pada waktu tersebut");
+        return resError(res, 400, "Ruangan sudah dipesan pada waktu tersebut");
       }
     }
 
@@ -214,5 +214,52 @@ exports.deleteReservation = async (req, res) => {
   } catch (error) {
     console.log(error);
     return resError(res, 500, "Gagal menghapus Reservasi.");
+  }
+};
+
+exports.adminValidation = async (req, res) => {
+  try {
+    const { status, reservation_id } = req.body;
+
+    if (!reservation_id) {
+      return resError(res, 400, "Reservation ID wajib disertakan.");
+    }
+
+    if (!["approved", "rejected"].includes(status)) {
+      return resError(
+        res,
+        400,
+        "Status harus berupa 'approved' atau 'rejected'."
+      );
+    }
+
+    const reservation = await Reservations.findOne({
+      where: { id: reservation_id },
+    });
+
+    if (!reservation) {
+      return resError(res, 404, "Reservasi tidak ditemukan.");
+    }
+
+    if (reservation.status !== "pending") {
+      return resError(
+        res,
+        403,
+        "Hanya reservasi dengan status 'pending' yang dapat divalidasi."
+      );
+    }
+
+    reservation.status = status;
+    await reservation.save();
+
+    return resSukses(
+      res,
+      200,
+      `Reservasi berhasil diubah menjadi '${status}'.`,
+      reservation
+    );
+  } catch (error) {
+    console.error(error);
+    return resError(res, 500, "Gagal memvalidasi reservasi.");
   }
 };
