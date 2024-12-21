@@ -1,4 +1,4 @@
-const codeError = `SVC-AS`;
+const codeError = `SVC-TS`;
 const logger = require("./logger");
 
 const resSukses = function (res, code, message, result = null) {
