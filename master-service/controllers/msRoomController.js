@@ -6,6 +6,7 @@ exports.getAllRooms = async (req, res) => {
     const msRooms = await MsRooms.findAll();
     return resSukses(res, 200, "Berhasil mendapatkan semua Ruang.", msRooms);
   } catch (error) {
+    console.log(error);
     return resError(res, 500, "Gagal mendapatkan semua Ruang.");
   }
 };
@@ -13,13 +14,14 @@ exports.getAllRooms = async (req, res) => {
 exports.getRoomById = async (req, res) => {
   try {
     const msRooms = await MsRooms.findOne({
-      where: { id: req.params.id, is_active: true },
+      where: { id: req.params.id, is_maintenance: false },
     });
     if (!msRooms) {
       return resError(res, 404, "Ruang tidak ditemukan.");
     }
     return resSukses(res, 200, "Berhasil mendapatkan Ruang.", msRooms);
   } catch (error) {
+    console.log(error);
     return resError(res, 500, "Gagal mendapatkan Ruang.");
   }
 };
@@ -29,6 +31,7 @@ exports.createRoom = async (req, res) => {
     const msRooms = await MsRooms.create(req.body, req.sequelizeOptions);
     return resSukses(res, 200, "Berhasil membuat Ruang baru.", msRooms);
   } catch (error) {
+    console.log(error);
     return resError(res, 500, "Gagal membuat Ruang baru.");
   }
 };
@@ -36,7 +39,7 @@ exports.createRoom = async (req, res) => {
 exports.updateRoom = async (req, res) => {
   try {
     const msRooms = await MsRooms.findOne({
-      where: { id: req.params.id, is_active: true },
+      where: { id: req.params.id },
     });
     if (!msRooms) {
       return resError(res, 404, "Ruang tidak ditemukan.");
@@ -44,6 +47,7 @@ exports.updateRoom = async (req, res) => {
     await msRooms.update(req.body, req.sequelizeOptions);
     return resSukses(res, 200, "Berhasil memperbarui Ruang.", msRooms);
   } catch (error) {
+    console.log(error);
     return resError(res, 500, "Gagal memperbarui Ruang.");
   }
 };
@@ -51,14 +55,15 @@ exports.updateRoom = async (req, res) => {
 exports.deleteRoom = async (req, res) => {
   try {
     const msRooms = await MsRooms.findOne({
-      where: { id: req.params.id, is_active: true },
+      where: { id: req.params.id },
     });
     if (!msRooms) {
       return resError(res, 404, "Ruang tidak ditemukan.");
     }
-    await msRooms.update({ is_active: false });
+    await msRooms.update({ is_maintenance: false });
     return resSukses(res, 200, "Berhasil menghapus Ruang.");
   } catch (error) {
+    console.log(error);
     return resError(res, 500, "Gagal menghapus Ruang.");
   }
 };
