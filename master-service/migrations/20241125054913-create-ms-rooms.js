@@ -38,6 +38,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      is_maintenance: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

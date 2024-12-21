@@ -45,6 +45,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: "",
       },
+      is_maintenance: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       sequelize,

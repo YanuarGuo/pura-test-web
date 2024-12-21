@@ -22,6 +22,8 @@ module.exports = {
         description: "Ruang VIP1",
         createdAt: "2024-08-22T03:05:11.884Z",
         updatedAt: "2024-08-22T03:05:11.884Z",
+        createdBy: "Seeder",
+        updatedBy: "Seeder",
       },
     ]);
   },
