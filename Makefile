@@ -4,10 +4,9 @@ init: user-confirmation
 	cd auth-service && make setup
 	cd master-service && make setup
 	cd transactional-service && make setup
-	cd storage-service && make setup
 	cd log-service && make setup
 	cd swagger-peminjaman-ruang && make up
-	@echo "Berhasil menginisialisasi aplikasi SWCU peminjaman-ruang!"
+	@echo "Berhasil menginisialisasi aplikasi peminjaman-ruang!"
 
 up: user-confirmation
 	cd api-gateway-service && make up
@@ -15,13 +14,11 @@ up: user-confirmation
 	cd auth-service && make up
 	cd master-service && make up
 	cd transactional-service && make up
-	cd storage-service && make up
 	cd log-service && make up
 	cd swagger-peminjaman-ruang && make up
-	@echo "Berhasil menginisialisasi aplikasi SWCU peminjaman-ruang!"
+	@echo "Berhasil menginisialisasi aplikasi peminjaman-ruang!"
 
 down:
-	cd storage-service && make down
 	cd master-service && make down
 	cd transactional-service && make down
 	cd auth-service && make down
@@ -29,7 +26,7 @@ down:
 	cd log-service && make down
 	cd swagger-peminjaman-ruang && make down
 	cd api-gateway-service && make down
-	@echo "Berhasil menutup aplikasi SWCU peminjaman-ruang!"
+	@echo "Berhasil menutup aplikasi peminjaman-ruang!"
 
 seed:
 	@echo "Memulai seeding service manager ..."
@@ -43,9 +40,6 @@ seed:
 
 	@echo "Memulai seeding transactional service ..."
 	cd transactional-service && docker exec -it transactional-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:all"
-
-	@echo "Memulai seeding storage service ..."
-	cd storage-service && docker exec -it storage-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:all"
 
 	@echo "Proses seeding berhasil dilakukan!"
 
@@ -62,9 +56,6 @@ undo-seed:
 	@echo "Memulai penghapusan data transactional service ..."
 	cd transactional-service && docker exec -it transactional-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all"
 
-	@echo "Memulai penghapusan data storage service ..."
-	cd storage-service && docker exec -it storage-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all"
-
 	@echo "Proses penghapusan data berhasil dilakukan!"
 
 full-seed:
@@ -79,9 +70,6 @@ full-seed:
 
 	@echo "Memulai seeding total transactional service ..."
 	cd transactional-service && docker exec -it transactional-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
-
-	@echo "Memulai seeding total storage service ..."
-	cd storage-service && docker exec -it storage-service-peminjaman-ruang sh -c "npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all"
 
 	@echo "Proses seeding total berhasil dilakukan!"
 
@@ -99,7 +87,5 @@ down-postgres-data:
 	cd master-service && rm -rf postgres-data
 	echo "Memulai Hapus postgres data pada transactional-service"
 	cd transactional-service && rm -rf postgres-data
-	echo "Memulai Hapus postgres data pada storage-service"
-	cd storage-service && rm -rf postgres-data
 	echo "Memulai Hapus postgres data pada service-manager"
 	cd service-manager && rm -rf postgres-data
