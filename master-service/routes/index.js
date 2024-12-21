@@ -11,17 +11,13 @@ router.use("/roles", msRoleRoutes);
 const msGroupMenuRoutes = require("./msGroupMenuRoutes");
 router.use("/group-menus", msGroupMenuRoutes);
 
-// Jenis Tiket
+// Room
 const msRoomRoutes = require("./msRoomRoutes");
 router.use("/rooms", msRoomRoutes);
 
 // Menu
 const msMenuRoutes = require("./msMenuRoutes");
 router.use("/menus", msMenuRoutes);
-
-// Role Menu
-const msRoleMenuRoutes = require("./msRoleMenuRoutes");
-router.use("/role-menus", msRoleMenuRoutes);
 
 // User Access
 const userAccessRoutes = require("./userAccessRoutes");
