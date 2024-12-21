@@ -82,15 +82,6 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: "dc1e85ea-3ed7-445f-8b8d-29a08be277cd",
-        service_id: "8e416062-7664-481e-8858-3242107c288f",
-        path_name: "role-menus",
-        is_maintenance: false,
-        is_suspend: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
         id: "7287c84a-2b2f-440e-9d9e-ff430a7fe9ed",
         service_id: "8e416062-7664-481e-8858-3242107c288f",
         path_name: "user-access",
