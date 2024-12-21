@@ -15,12 +15,16 @@ module.exports = {
      * }], {});
      */
     await queryInterface.bulkInsert(
-      "Reservation",
+      "Reservations",
       [
         {
           id: "e6491de3-b40a-4d62-afd4-e28109cd3348",
           user_id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434",
           room_id: "c1b5bd9e-d56b-4f75-b934-87f17616cc09",
+          start_time: "2024-08-22T03:05:11.884Z",
+          end_time: "2024-08-22T04:05:11.884Z",
+          purpose: "Meeting",
+          status: "pending",
           createdAt: "2024-08-22T03:05:11.884Z",
           updatedAt: "2024-08-22T03:05:11.884Z",
           createdBy: "Seeder",
@@ -40,6 +44,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Reservation", null, {});
+    await queryInterface.bulkDelete("Reservations", null, {});
   },
 };

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Reservation", {
+    await queryInterface.createTable("Reservations", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -15,6 +15,22 @@ module.exports = {
       room_id: {
         allowNull: false,
         type: Sequelize.UUID,
+      },
+      start_time: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      end_time: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      purpose: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +57,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Reservation");
+    await queryInterface.dropTable("Reservations");
   },
 };

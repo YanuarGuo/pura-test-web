@@ -3,14 +3,10 @@ const { Model } = require("sequelize");
 const moment = require("moment-timezone");
 
 module.exports = (sequelize, DataTypes) => {
-  class Reservation extends Model {
-    static associate(models) {
-      Reservation.hasMany(models.ReservationDetail, {
-        foreignKey: "reservation_id",
-      });
-    }
+  class Reservations extends Model {
+    static associate(models) {}
   }
-  Reservation.init(
+  Reservations.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -24,6 +20,22 @@ module.exports = (sequelize, DataTypes) => {
       room_id: {
         allowNull: false,
         type: DataTypes.UUID,
+      },
+      start_time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      end_time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      purpose: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       createdBy: {
         type: DataTypes.STRING,
@@ -39,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Reservation",
+      modelName: "Reservations",
       hooks: {
         beforeCreate: (instance, options) => {
           instance.createdBy = options.userId;
@@ -52,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Reservation.prototype.toJSON = function () {
+  Reservations.prototype.toJSON = function () {
     const values = { ...this.get() };
 
     if (values.createdAt) {
@@ -70,5 +82,5 @@ module.exports = (sequelize, DataTypes) => {
     return values;
   };
 
-  return Reservation;
+  return Reservations;
 };
