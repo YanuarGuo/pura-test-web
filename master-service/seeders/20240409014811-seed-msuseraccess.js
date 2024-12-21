@@ -151,21 +151,6 @@ module.exports = {
           updatedBy: "Seeder",
         },
         {
-          id: "635e230a-ac55-4733-b498-81575b817e67",
-          user_id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434", // User: admin
-          role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Role: Admin
-          menu_id: "6e2d7329-0d1c-44df-bff1-27a45be83c6c", // Menu: Storage
-          is_create: true,
-          is_read: true,
-          is_read_all: true,
-          is_update: true,
-          is_delete: true,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          createdBy: "Seeder",
-          updatedBy: "Seeder",
-        },
-        {
           id: "6fa513e0-1418-4bc3-bc7e-e542616361b4",
           user_id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434", // User: admin
           role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5", // Role: Admin

@@ -41,23 +41,11 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: "41c0ce99-bd52-4668-9881-0e293844f79a",
-        name: "Storage Servive",
-        host: "http://storage-service-peminjaman-ruang",
-        port: null,
-        apikey: "apikey4", // tambahkan apikey di sini
-        is_maintenance: false,
-        is_suspend: false,
-        maintenance_message: "Storage Service is Under Maintenance",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
         id: "da2f6c45-9960-49fd-b977-61b9f7f572cb",
         name: "Log Service",
         host: "http://log-service-peminjaman-ruang",
         port: null,
-        apikey: "apikey5", // tambahkan apikey di sini
+        apikey: "apikey4", // tambahkan apikey di sini
         is_maintenance: false,
         is_suspend: false,
         maintenance_message: "COA Service is Under Maintenance",
@@ -69,7 +57,7 @@ module.exports = {
         name: "Transactional Service",
         host: "http://transactional-service-peminjaman-ruang",
         port: null,
-        apikey: "apikey6", // tambahkan apikey di sini
+        apikey: "apikey5", // tambahkan apikey di sini
         is_maintenance: false,
         is_suspend: false,
         maintenance_message: "Transactional Service is Under Maintenance",

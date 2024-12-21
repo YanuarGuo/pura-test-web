@@ -141,20 +141,6 @@ module.exports = {
           is_show: true,
         },
 
-        // Storage Service
-        {
-          id: "6e2d7329-0d1c-44df-bff1-27a45be83c6c",
-          group_menu_id: "3b2d91af-e322-4f2c-8a2e-6cff6464aa7e",
-          name: "Storage",
-          icon_local: null,
-          icon_url: null,
-          note: "Keterangan Storage Services",
-          service_path_id: "71243676-1009-408f-b3cd-338ce1940d0c",
-          createdAt: "2024-08-22T03:05:12.860Z",
-          updatedAt: "2024-08-22T03:05:12.860Z",
-          is_show: false,
-        },
-
         // Log Service
         {
           id: "ab330151-5224-4ccd-8038-2310e86e1fb7",

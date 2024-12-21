@@ -36,15 +36,6 @@ module.exports = {
           is_show: true,
         },
         {
-          id: "3b2d91af-e322-4f2c-8a2e-6cff6464aa7e",
-          service_id: "41c0ce99-bd52-4668-9881-0e293844f79a",
-          name: "Storage Service",
-          note: "Keterangan group menu Master",
-          createdAt: "2024-08-22T03:05:12.855Z",
-          updatedAt: "2024-08-22T03:05:12.855Z",
-          is_show: false,
-        },
-        {
           id: "81aa4c01-70b1-43a0-a620-52f63a0c4190",
           service_id: "da2f6c45-9960-49fd-b977-61b9f7f572cb",
           name: "Log",
