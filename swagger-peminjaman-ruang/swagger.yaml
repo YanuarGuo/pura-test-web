@@ -1,6 +1,6 @@
 openapi: 3.1.3
 info:
-  title: SIANGKASA-API
+  title: PEMINJAMAN-RUANG-API
   description: >-
     Setiap request yang ada, harus selalu menyertakan 2 header
 
@@ -49,12 +49,11 @@ tags:
       **(Khusus BE)**
   - name: Service Manager > Services
   - name: Service Manager > Services Path
-  - name: Email Service
-    description: |-
-      Service untuk proses krim email
-      **(Khusus Backend)**
   - name: Log Service
-    description: Service untuk memproses log
+    description: Service untuk memproses log.
+  - name: Transactional Service
+    description: Service untuk proses transaksi.
+  - name: Transactional Service > Reservation
 components:
   securitySchemes:
     Authorization:
@@ -1150,7 +1149,7 @@ paths:
             description: Error
             content:
               application/json: {}
-    /user-access:
+  /user-access:
     get:
       tags:
         - Master Service > User Accesses
@@ -1559,46 +1558,6 @@ paths:
           description: Error
           content:
             application/json: {}
-  /email/sent:
-    post:
-      tags:
-        - Email Service
-      summary: Sent Email
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                emailTo:
-                  type: string
-                  example: test@example.com
-                subject:
-                  type: string
-                  example: TEST
-                body:
-                  type: string
-                  example: Test Krim Email
-      responses:
-        "200":
-          description: Succesful Response
-          content:
-            application/json: {}
-        "400":
-          description: Request Tidak Lengkap
-          content:
-            application/json: {}
-        "403":
-          description: Forbidden
-          content:
-            application/json: {}
-        "404":
-          description: Data Tidak Ditemukan
-          content:
-            application/json: {}
-        "500":
-          description: Error
-          content:
-            application/json: {}
   /user-profiles:
     get:
       tags:
@@ -1862,6 +1821,180 @@ paths:
                 user_id: 6cd626c-1380-4bd7-8a55-3ab809f146d7
                 username: user_admin
                 message: Admin menambah log
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /reservation:
+    get:
+      tags:
+        - Transactional Service > Reservation
+      summary: Get All
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+      security:
+        - Authorization: []
+    post:
+      tags:
+        - Transactional Service > Reservation
+      summary: Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                user_id: c0db4c0a-4a42-4413-b2e5-68d9a7272434
+                room_id: c1b5bd9e-d56b-4f75-b934-87f17616cc09
+                is_active: true
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+  /reservation/{id}:
+    get:
+      tags:
+        - Transactional Service > Reservation
+      summary: Get by ID
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Transactional Service > Reservation
+      summary: Update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Admin 1.1
+                note: Keterangan admin 1.1
+                is_validate: true
+                is_authorize: true
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Succesful Response
+          content:
+            application/json: {}
+        "400":
+          description: Request Tidak Lengkap
+          content:
+            application/json: {}
+        "403":
+          description: Forbidden
+          content:
+            application/json: {}
+        "404":
+          description: Data Tidak Ditemukan
+          content:
+            application/json: {}
+        "500":
+          description: Error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Transactional Service > Reservation
+      summary: Delete
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: "#/components/parameters/GatewayKeyHeader"
+        - $ref: "#/components/parameters/UnixTimeHeader"
+        - $ref: "#/components/parameters/Id"
       responses:
         "200":
           description: Succesful Response

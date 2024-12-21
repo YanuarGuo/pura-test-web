@@ -25,10 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.UUID,
       },
-      harga: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
       createdBy: {
         type: DataTypes.STRING,
       },
