@@ -18,6 +18,7 @@ module.exports = {
       [
         {
           id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434",
+          role_id: "2d4970a9-7c30-428f-b339-eea6c34863a5",
           username: "admin",
           email: "test@example.com",
           password: await bcrypt.hash("1sampai8", 10),
