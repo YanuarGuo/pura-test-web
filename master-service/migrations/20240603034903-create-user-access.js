@@ -20,16 +20,6 @@ module.exports = {
           key: "id",
         },
       },
-      role_id: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        references: {
-          model: "MsRoles",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL",
-      },
       menu_id: {
         allowNull: false,
         type: Sequelize.UUID,

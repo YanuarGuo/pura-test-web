@@ -8,11 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      role_id: {
-        type: Sequelize.UUID,
+      username: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
-      username: {
+      role: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -48,6 +48,14 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+      },
+      resetKey: {
+        type: Sequelize.STRING,
+      },
+      tokenVersion: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
     });
   },

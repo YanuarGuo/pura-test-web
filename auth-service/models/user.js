@@ -21,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      role_id: {
-        type: DataTypes.UUID,
+      username: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      username: {
+      role: {
         type: DataTypes.STRING,
         allowNull: false,
       },

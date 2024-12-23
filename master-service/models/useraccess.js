@@ -14,12 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "menu_id",
         as: "menu",
       });
-
-      UserAccess.belongsTo(models.MsRole, {
-        foreignKey: "role_id",
-        as: "role",
-      });
-
       UserAccess.belongsTo(models.UserProfile, {
         foreignKey: "user_id",
       });
@@ -35,18 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       user_id: {
         allowNull: false,
         type: DataTypes.UUID,
-      },
-      role_id: {
-        allowNull: false,
-        type: DataTypes.UUID,
-        validate: {
-          async isValidRoleId(value) {
-            const role = await sequelize.models.MsRole.findByPk(value);
-            if (!role) {
-              throw new Error("Role Tidak Ditemukan");
-            }
-          },
-        },
       },
       menu_id: {
         allowNull: false,
