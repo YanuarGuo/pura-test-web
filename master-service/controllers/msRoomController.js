@@ -1,9 +1,10 @@
 const { MsRooms } = require("../models");
 var { resSukses, resError } = require("../helpers/response");
+const { where } = require("sequelize");
 
 exports.getAllRooms = async (req, res) => {
   try {
-    const msRooms = await MsRooms.findAll();
+    const msRooms = await MsRooms.findAll({ where: { is_maintenance: false } });
     return resSukses(res, 200, "Berhasil mendapatkan semua Ruang.", msRooms);
   } catch (error) {
     console.log(error);
@@ -60,7 +61,7 @@ exports.deleteRoom = async (req, res) => {
     if (!msRooms) {
       return resError(res, 404, "Ruang tidak ditemukan.");
     }
-    await msRooms.update({ is_maintenance: false });
+    await msRooms.update({ is_maintenance: true });
     return resSukses(res, 200, "Berhasil menghapus Ruang.");
   } catch (error) {
     console.log(error);

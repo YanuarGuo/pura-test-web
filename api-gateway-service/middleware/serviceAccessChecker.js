@@ -48,9 +48,9 @@ exports.checkServiceAccess = async function (req, res, next) {
         longPath
       );
 
-      if (userAccess.allowed === false) {
-        return resError(res, 403, "Maaf, Anda tidak memiliki akses.");
-      }
+      // if (userAccess.allowed === false) {
+      //   return resError(res, 403, "Maaf, Anda tidak memiliki akses.");
+      // }
 
       req.appURL = appURL;
 

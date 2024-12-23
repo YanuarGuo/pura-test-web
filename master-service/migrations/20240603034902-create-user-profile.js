@@ -26,6 +26,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      role: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -44,11 +48,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      is_active:{
+      is_active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-      }
+      },
     });
   },
 

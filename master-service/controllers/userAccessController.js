@@ -1,7 +1,6 @@
 const {
   UserAccess,
   MsMenu,
-  MsRole,
   MsGroupMenu,
   UserProfile,
 } = require("../models");
@@ -47,10 +46,6 @@ exports.getAllUserAccesses = async (req, res) => {
           ],
         },
         {
-          model: MsRole,
-          as: "role",
-        },
-        {
           model: UserProfile,
         },
       ],
@@ -63,6 +58,7 @@ exports.getAllUserAccesses = async (req, res) => {
       userAccesses
     );
   } catch (error) {
+    console.log(error);
     return resError(res, 500, "Gagal mendapatkan semua User Access.");
   }
 };

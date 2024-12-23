@@ -225,7 +225,7 @@ exports.adminValidation = async (req, res) => {
       return resError(res, 400, "Reservation ID wajib disertakan.");
     }
 
-    if (!["approved", "rejected"].includes(status)) {
+    if (!["ajukan", "approved", "rejected"].includes(status)) {
       return resError(
         res,
         400,
@@ -241,7 +241,7 @@ exports.adminValidation = async (req, res) => {
       return resError(res, 404, "Reservasi tidak ditemukan.");
     }
 
-    if (reservation.status !== "pending") {
+    if ((reservation.status !== "pending", "ajukan")) {
       return resError(
         res,
         403,

@@ -19,7 +19,6 @@ module.exports = {
         {
           id: "c0db4c0a-4a42-4413-b2e5-68d9a7272434",
           username: "admin",
-          role: "admin",
           email: "admin@example.com",
           password: await bcrypt.hash("1sampai8", 10),
           token: null,
@@ -33,7 +32,6 @@ module.exports = {
         {
           id: "e5b0678b-8725-4184-b304-eeb1e414e7c7",
           username: "user",
-          role: "user",
           email: "user@example.com",
           password: await bcrypt.hash("1sampai8", 10),
           token: null,
