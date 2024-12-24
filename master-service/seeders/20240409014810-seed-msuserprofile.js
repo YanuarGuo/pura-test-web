@@ -15,8 +15,6 @@ module.exports = {
           role: "admin",
           createdAt: new Date(),
           updatedAt: new Date(),
-          createdBy: "Seeder",
-          updatedBy: "Seeder",
           is_active: true,
         },
         {
@@ -28,8 +26,6 @@ module.exports = {
           role: "user",
           createdAt: new Date(),
           updatedAt: new Date(),
-          createdBy: "Seeder",
-          updatedBy: "Seeder",
           is_active: true,
         },
       ],

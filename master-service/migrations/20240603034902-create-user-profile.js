@@ -40,14 +40,6 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("NOW()"),
       },
-      createdBy: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      updatedBy: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
       is_active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,

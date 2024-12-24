@@ -44,25 +44,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: true,
       },
-      createdBy: {
-        type: DataTypes.STRING,
-      },
-      updatedBy: {
-        type: DataTypes.STRING,
-      },
     },
     {
       sequelize,
       tableName: "UserProfiles",
-      hooks: {
-        beforeCreate: (instance, options) => {
-          instance.createdBy = options.userId;
-          instance.updatedBy = options.userId;
-        },
-        beforeUpdate: (instance, options) => {
-          instance.updatedBy = options.userId;
-        },
-      },
     }
   );
 
