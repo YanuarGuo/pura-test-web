@@ -2,7 +2,8 @@
 
 ## Konfigurasi
 
-1.  Persiapkan Docker Desktop atau dapat menggunakan WSL:Ubuntu untuk menjalankan containers/services
+1.  Persiapkan Docker Desktop atau dapat menggunakan WSL:Ubuntu untuk menjalankan containers/services.
+
 2.  Copy dan paste file `.env.example` menjadi `.env` pada setiap service. Harap tidak mengganti CONTAINER_NAME bila anda tidak tahu cara menyesuaikan dengan konfigurasi yang lain (Parent Makefile).
 
 3.  Sesuaikan environment masing-masing sesuai yang dibutuhkan.
@@ -28,32 +29,33 @@
 
 4.  Bila `.env` sudah selesai diatur, buka console/terminal, dan ketikkan:
 
+    ```sh
     make init
+    ```
 
     Perintah ini akan melakukan build and run semua service ke localhost.
 
 5.  Untuk melakukan seeding, masuk ke direktori service yang dituju, lalu ketikkan pada terminal:
 
+    ```sh
     make exec
+    ```
 
     Perintah tersebut akan membuka terminal yang ada di dalam docker, dan di terminal docker tersebut ketikkan:
 
+    ```sh
     npx sequelize-cli db:seed:all
+    ```
 
     Bila ingin melakukan seeding secara keseluruhan, ketikkan pada terminal:
 
+    ```sh
     # Melakukan seeding tanpa penghapusan data sebelum
-
     make seed
 
     # Melakukan penghapusan data sebelum
-
     make undo-seed
 
     # Melakukan penghapusan data sebelum lalu seeding ulang
-
     make full-seed
-
-    ```
-
     ```
