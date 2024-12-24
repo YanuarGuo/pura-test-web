@@ -4,24 +4,18 @@ const jwt = require("jsonwebtoken");
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const decodedJwt = jwt.decode(req.headers["authorization"]);
+    const users = await UserProfile.findAll({
+      where: { is_active: true },
+      order: [["createdAt", "DESC"]],
+    });
 
-    let user;
-    if (decodedJwt.userPermission.is_read_all) {
-      user = await UserProfile.findAll({
-        where: { is_active: true },
-        order: [["createdAt", "DESC"]],
-      });
-    } else {
-      user = await UserProfile.findAll({
-        where: { id: decodedJwt.userId, is_active: true },
-        order: [["createdAt", "DESC"]],
-      });
-    }
-
-    return resSukses(res, 200, "Berhasil mendapatkan semua User.", user);
+    return res.status(200).json({
+      message: "Berhasil mendapatkan semua User.",
+      data: users,
+    });
   } catch (error) {
-    return resError(res, 500, "Gagal mendapatkan semua User.");
+    console.error(error);
+    return res.status(500).json({ message: "Gagal mendapatkan semua User." });
   }
 };
 
@@ -72,7 +66,6 @@ exports.getUserProfileById = async (req, res) => {
 exports.createUserProfile = async (req, res) => {
   try {
     const cekUser = await UserProfile.findByPk(req.body.id);
-
     if (cekUser) {
       return resError(res, 403, "User Profile sudah dibuat.");
     }
