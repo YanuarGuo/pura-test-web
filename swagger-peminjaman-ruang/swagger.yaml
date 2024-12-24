@@ -394,7 +394,7 @@ paths:
                   example: new_username
                 email:
                   type: string
-                  example: new_email@uksw.edu
+                  example: new_email@gmail.com
                 password:
                   type: string
                   example: 1sampai9
