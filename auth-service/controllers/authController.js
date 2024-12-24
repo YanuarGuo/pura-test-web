@@ -419,8 +419,8 @@ exports.updateUser = async function (req, res, next) {
     if (username) setData.username = username;
 
     if (email) {
-      if (!email.endsWith(`@uksw.edu`))
-        return hrp.resGagal(res, 403, "Email tidak valid, gunakan email UKSW");
+      if (!email.endsWith(`@gmail.com`))
+        return hrp.resGagal(res, 403, "Email tidak valid");
       setData.email = email;
     }
 
