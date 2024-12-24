@@ -33,7 +33,7 @@ exports.getAllReservationJWT = async (req, res) => {
     console.log(userId);
 
     const reservation = await Reservations.findAll({
-      where: { user_id: userId },
+      where: { user_id: userId, is_active: true },
     });
     return resSukses(
       res,
